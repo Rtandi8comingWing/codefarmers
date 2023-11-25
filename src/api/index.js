@@ -40,11 +40,17 @@ export const loginInfo = query => {
  */
 export const loginInfo = query => {
     return request({
-        url: 'http://127.0.0.1:4523/m1/2794878-0-default/loginInfo',
-        method: 'get',
-        params: query
+        url: '/api/users/login',
+        method: 'post',
+        data: query
     });
-	//get请求配置params
+};
+
+export const logout = () => {
+    return request({
+        url: '/api/users/logout',
+        method: 'get'
+    });
 };
 
 export const chart1 = () => {

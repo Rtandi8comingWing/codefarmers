@@ -49,6 +49,7 @@
     </div>
 </template>
 <script>
+import { logout } from '../../api';
 import bus from '../common/bus';
 export default {
     data() {
@@ -69,6 +70,7 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
+                logout();
                 localStorage.removeItem('ms_username');
                 this.$router.push('/login');
             }

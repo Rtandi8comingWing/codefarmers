@@ -56,19 +56,6 @@
 			Schart
 		},
 		created() {
-			login().then((res) => {
-            if (res.result == '1') {
-                this.$message({
-                    message: '登录成功',
-                    type: 'success'
-                });
-            } else {
-                this.$message({
-                    message: '登录失败',
-                    type: 'error'
-                });
-            }
-        });
 			this.fetchExceptionData();
 			this.getSex();
 		},

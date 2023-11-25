@@ -33,7 +33,6 @@
                             <el-menu-item
                                 v-else
                                 :index="subItem.index"
-                                :key="subItem.index"
                             >{{ subItem.title }}</el-menu-item>
                         </template>
                     </el-submenu>
