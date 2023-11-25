@@ -2,16 +2,28 @@ import request from '../utils/request';
 
 export const addTask = query => {
     return request({
-        url: 'http://127.0.0.1:8080/api/tasks',
+        url: 'http://10.69.206.242/api/tasks',
         method: 'post',
         data : query
     });
     //新增一项任务
 };
 
+export const login = query => {
+    return request({
+        url: 'http://10.69.206.242/api/users/login',
+        method: 'post',
+        data : {
+            username: "Alchemyhan",
+            password: "hpl20040706hpl"
+        }
+    });
+    //获取已完成任务
+};
+
 export const getTodoList =() => {
     return request({
-        url: 'http://10.69.206.242:8080/api/tasks?mode=incomplete',
+        url: 'http://10.69.206.242/api/tasks?mode=incomplete',
         method: 'get',
     });
     //获取未完成任务

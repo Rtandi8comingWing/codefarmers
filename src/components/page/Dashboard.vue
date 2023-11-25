@@ -30,6 +30,7 @@
 	import Schart from 'vue-schart';
 	import bus from '../common/bus';
 	import  {fetchExceptionData,getSex} from '../../api/index.js'
+	import { login } from '../../api/tasks.js';
 	export default {
 		name: 'dashboard',
 		data() {
@@ -55,6 +56,19 @@
 			Schart
 		},
 		created() {
+			login().then((res) => {
+            if (res.result == '1') {
+                this.$message({
+                    message: '登录成功',
+                    type: 'success'
+                });
+            } else {
+                this.$message({
+                    message: '登录失败',
+                    type: 'error'
+                });
+            }
+        });
 			this.fetchExceptionData();
 			this.getSex();
 		},

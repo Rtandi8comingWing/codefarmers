@@ -33,8 +33,8 @@
                     </template>
                 </el-table-column>
                 <el-table-column type="index" label="#" width="180"> </el-table-column>
-                <el-table-column prop="content" label="任务内容" width="500"> </el-table-column>
-                <el-table-column prop="duetime" label="姓名" width="300"> </el-table-column>
+                <el-table-column prop="title" label="任务内容" width="500"> </el-table-column>
+                <el-table-column prop="due_date" label="截止日期" width="300"> </el-table-column>
                 <!-- <template slot-scope="scope">
                         <div class="todo-item" :class="{ 'todo-item-del': scope.row.status }">{{ scope.row.title }}</div>
                     </template> -->
@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { addTask, getTodoList, getDoneList, completeTask, uncompleteTask, updateTaskInfo, deleteTask } from '../../api/tasks.js';
+import { addTask,login, getTodoList, getDoneList, completeTask, uncompleteTask, updateTaskInfo, deleteTask } from '../../api/tasks.js';
 export default {
     data: function () {
         return {
@@ -281,8 +281,8 @@ export default {
         },
         getTodoListOp() {
             getTodoList().then((res) => {
-                console.log(res.data)
-                this.todoList = res.data;
+                console.log(res)
+                this.todoList = res
             });
         },
         getDoneListOp(name) {
@@ -401,6 +401,7 @@ export default {
         }
     },
     created() {
+        
         this.getTodoListOp();
         // this.getDoneListOp(this.name);
     }
