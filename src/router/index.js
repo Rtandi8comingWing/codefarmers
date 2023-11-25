@@ -40,6 +40,16 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/Tasks.vue'),
                     meta: { title: '任务' }
                 },
+                {
+                    path: '/importantTasks',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/importantTasks.vue'),
+                    meta: { title: '重要任务' }
+                },
+                {
+                    path: '/list',
+                    component: () => import(/* webpackChunkName: "table" */ '../components/page/List.vue'),
+                    meta: { title: '自定义列表' }
+                },
 				{
 				    path: '/table1',
 				    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable1.vue'),

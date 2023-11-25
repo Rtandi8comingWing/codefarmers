@@ -82,6 +82,16 @@ export default {
                     title: '任务'
                 },
                 {
+                    icon: 'el-icon-lx-cascades',
+                    index: 'importantTasks',
+                    title: '重要任务'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: 'list',
+                    title: '自定义列表'
+                },
+                {
                     icon: 'el-icon-lx-copy',
                     index: 'tabs',
                     title: 'tab选项卡'

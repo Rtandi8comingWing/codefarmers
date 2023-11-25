@@ -95,7 +95,7 @@
             <el-row>
                 <el-col>
                     <!-- 修改内容 -->
-                    <el-input v-model="editContent"></el-input>
+                    <el-input v-model="editContent" style="margin-bottom:20px"></el-input>
                     <el-date-picker
                         v-model="editDuetime"
                         type="datetime"
@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { addTask, getTodoList, getDoneList, completeTask, uncompleteTask } from '../../api/tasks.js';
+import { addTask, getTodoList, getDoneList, completeTask, uncompleteTask, updateTaskInfo, deleteTask } from '../../api/tasks.js';
 export default {
     data: function () {
         return {
@@ -279,12 +279,10 @@ export default {
                 }
             });
         },
-        getTodoListOp(name) {
-            let info = {
-                "name": name
-            };
-            getTodoList(info).then((res) => {
-                this.todoList = res.rows;
+        getTodoListOp() {
+            getTodoList().then((res) => {
+                console.log(res.data)
+                this.todoList = res.data;
             });
         },
         getDoneListOp(name) {
@@ -343,11 +341,11 @@ export default {
                 });
             }
         },
-        editOp() {
+        editOp(todoItem) {
             this.updatedialogVisible = true;
-            this.editTaskId = scope.row.id;
-            this.editContent = scope.row.content;
-            this.editDuetime = scope.row.duetime;
+            this.editTaskId = todoItem.id;
+            this.editContent = todoItem.content;
+            this.editDuetime = todoItem.duetime;
         },
         modfieData() {
             let info = {
@@ -355,7 +353,7 @@ export default {
                 "taskContent": this.editContent,
                 "taskDuetime": this.editDuetime,
             };
-            updateCustomInfo(info).then(res => {
+            updateTaskInfo(info).then(res => {
 					// 2. 根据反馈的结果进行提示
 					if (res.result == 1) {
 						this.$message({
@@ -371,7 +369,6 @@ export default {
 				});
         },
         delOp(index, todoItem) {
-            console.log(todoItem);
             this.deletedialogVisible = true;
             this.delTaskId = todoItem.id;
             this.index = index;
@@ -404,8 +401,7 @@ export default {
         }
     },
     created() {
-        console.log('1');
-        // this.getTodoListOp(this.name);
+        this.getTodoListOp();
         // this.getDoneListOp(this.name);
     }
 };
