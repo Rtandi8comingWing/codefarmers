@@ -160,98 +160,8 @@ export default {
                 ]
             },
             name: localStorage.getItem('ms_username'),
-            todoList: [
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                }
-            ],
-            doneList: [
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                }
-            ],
+            todoList: [],
+            doneList: [],
             deletedialogVisible: false,
             delTaskId: '',
             index: '',
@@ -263,7 +173,11 @@ export default {
     },
     methods: {
         addOp() {
-            addTask(this.taskModle).then((res) => {
+            let info={
+                "title" : this.taskModle.content,
+                "due_date" : this.taskModle.duetime
+            }
+            addTask(info).then((res) => {
                 if (res.result == '1') {
                     this.$message({
                         message: '任务新增成功',
