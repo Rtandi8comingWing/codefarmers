@@ -178,11 +178,12 @@ export default {
                 "due_date" : this.taskModle.duetime
             }
             addTask(info).then((res) => {
-                if (res.result == '1') {
+                if (res.id !== undefined) {
                     this.$message({
                         message: '任务新增成功',
                         type: 'success'
                     });
+                    this.$router.go();
                     this.taskModle.content = '';
                     this.taskModle.duetime = '';
                 } else {
