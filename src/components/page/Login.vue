@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
+            <div class="ms-title">Code Farmers TodoList</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
                     <el-input v-model="param.username" placeholder="username">
@@ -21,6 +21,11 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
+                <div class="register-link-container">
+                    <router-link to="/register">
+                        <el-button type="text" class="register-btn">没有账号？点击注册</el-button>
+                    </router-link>
+                </div>
             </el-form>
         </div>
     </div>
@@ -28,8 +33,9 @@
 
 <script>
 import  {loginInfo} from '../../api/index.js'
+import router from '../../router';
 export default {
-    data: function() {
+    data: function () {
         return {
             param: {
                 username: '',
@@ -45,24 +51,25 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-					// loginInfo(this.param).then(res => {
-					//     console.log(res);
-					// });
-					//调用登陆的接口
-					loginInfo(this.param).then(res => {
+                    // loginInfo(this.param).then(res => {
+                    //     console.log(res);
+                    // });
+                    //调用登陆的接口
+                    loginInfo(this.param).then(res => {
                         this.$message({
                             message: '登录成功',
                             type: 'success',
                         });
                         localStorage.setItem('ms_username', this.param.username);
                         this.$router.push('/');
-					}).catch(err => {
+                    }).catch(err => {
                         this.$message({
                             message: '登录失败，请检查账号和密码并重试',
                             type: 'error',
-                        })
+                        });
                     });
-                } else {
+                }
+                else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
                     return false;
@@ -70,6 +77,7 @@ export default {
             });
         },
     },
+    components: { router }
 };
 </script>
 
@@ -110,6 +118,19 @@ export default {
     height: 36px;
     margin-bottom: 10px;
 }
+
+.register-btn {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #409EFF; /* 设置字体颜色 */
+    font-weight: bold; /* 加粗字体 */
+    /* 添加更多样式来调整按钮的外观 */
+}
+.register-link-container {
+    text-align: right; /* 设置文本右对齐 */
+    margin-top: 10px;
+}
+
 .login-tips {
     font-size: 12px;
     line-height: 30px;

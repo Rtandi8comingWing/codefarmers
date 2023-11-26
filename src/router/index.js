@@ -131,6 +131,11 @@ export default new Router({
             ]
         },
         {
+            path: '/register',
+            component: () => import(/* webpackChunkName: "register" */ '../components/page/Register.vue'),
+            meta: { title: '注册' }
+        },
+        {
             path: '/login',
             component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
             meta: { title: '登录' }
