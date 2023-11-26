@@ -2,11 +2,11 @@
     <div class="tasks-container">
         <el-card>
             <el-row>
-                <el-col :span="16" class="center-col">
-                    <el-input v-model="taskModle.content" placeholder="请输入您要添加的任务"></el-input>
+                <el-col :span="16" class="center-col" >
+                    <el-input v-model="taskModle.content" placeholder="Please add your task here!" style="font-size: 18px;"></el-input>
                 </el-col>
                 <el-col :span="7" class="center-col">
-                    <el-date-picker v-model="taskModle.duetime" type="datetime" placeholder="选择日期时间" align="right"
+                    <el-date-picker v-model="taskModle.duetime" type="datetime" placeholder="Please choice due date" style="font-size: 15px;" align="right"
                         :picker-options="pickerOptions">
                     </el-date-picker>
                 </el-col>
@@ -17,26 +17,25 @@
         </el-card>
 
         <el-card shadow="hover">
-            <div slot="header" class="clearfix">
-                <span>待办事项</span>
-                <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
+            <div slot="header" class="clearfix" style="font-size:25px;">
+                <span>To do List</span>
             </div>
-            <el-table :show-header="true" :data="todoList" style="width: 100%" height="300">
+            <el-table :show-header="true" :data="todoList" style="width: 100%;font-size:16px; " height="300" >
                 <el-table-column width="40">
                     <template slot-scope="scope">
                         <el-checkbox v-model="scope.row._completed" @change="updateStatus1(scope.$index, scope.row)"
                             :key="scope.row.id"></el-checkbox>
                     </template>
                 </el-table-column>
-                <el-table-column type="index" label="任务序号" width="70"> </el-table-column>
-                <el-table-column prop="title" label="任务内容" width="500"> </el-table-column>
-                <el-table-column label="截止日期" width="300">
+                <el-table-column type="index" label="Task" width="70"> </el-table-column>
+                <el-table-column prop="title" label="Content" width="500"> </el-table-column>
+                <el-table-column label="Due date" width="320">
                     <template slot-scope="scope">
                         <!-- 假设 formatDate 是您的格式化函数 -->
                         {{ formatDate(scope.row.due_date) }}
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" width="100">
+                <el-table-column label="Status" width="140">
                     <template slot-scope="scope">
                         <!-- 假设 formatDate 是您的格式化函数 -->
                         {{scope.row._important}}
@@ -46,13 +45,13 @@
                         <div class="todo-item" :class="{ 'todo-item-del': scope.row.status }">{{ scope.row.title }}</div>
                     </template> -->
 
-                <el-table-column>
+                <el-table-column label="Edit">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" circle @click="editOp(scope.row, 'todo')"></el-button>
                     </template>
                 </el-table-column>
 
-                <el-table-column>
+                <el-table-column label="Delete">
                     <template slot-scope="scope">
                         <el-button type="danger" icon="el-icon-delete" circle
                             @click="delOp(scope.$index, scope.row, 'todo')"></el-button>
@@ -62,11 +61,10 @@
         </el-card>
 
         <el-card shadow="hover">
-            <div slot="header" class="clearfix">
-                <span>已完成事项</span>
-                <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
+            <div slot="header" class="clearfix" style="font-size:25px;">
+                <span>Done List</span>
             </div>
-            <el-table :show-header="true" :data="doneList" style="width: 100%" height="300">
+            <el-table :show-header="true" :data="doneList" style="width: 100%;font-size:16px;" height="300">
                 <el-table-column width="40">
                     <template slot-scope="scope">
                         <el-checkbox v-model="scope.row._completed" @change="updateStatus2(scope.$index, scope.row)"
@@ -74,25 +72,25 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column type="index" label="#" width="180" class-name="todo-item-del"> </el-table-column>
-                <el-table-column label="任务内容" width="500">
+                <el-table-column type="Task" label="Task" width="70" class-name="todo-item-del"> </el-table-column>
+                <el-table-column label="Content" width="500">
                     <template slot-scope="scope">
                         <div class="todo-item-del">{{ scope.row.title }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column label="截止日期" width="300">
+                <el-table-column label="Due date" width="320">
                     <template slot-scope="scope">
                         <div class="todo-item-del">{{ formatDate(scope.row.due_date) }}</div>
                     </template>
                 </el-table-column>
 
-                <el-table-column>
+                <el-table-column label="Edit">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" circle @click="editOp(scope.row, 'done')"></el-button>
                     </template>
                 </el-table-column>
 
-                <el-table-column>
+                <el-table-column label="Delete">
                     <template slot-scope="scope">
                         <el-button type="danger" icon="el-icon-delete" circle
                             @click="delOp(scope.$index, scope.row, 'done')"></el-button>
@@ -101,36 +99,36 @@
             </el-table>
         </el-card>
 
-        <el-dialog title="修改" :visible.sync="updatedialogVisible" width="30%">
+        <el-dialog title="Edit" :visible.sync="updatedialogVisible" width="30%">
             <el-row>
                 <el-col>
                     <!-- 修改内容 -->
-                    <el-input v-model="editContent" style="margin-bottom:20px" placeholder="请输入要修改的内容"></el-input>
+                    <el-input v-model="editContent" style="margin-bottom:20px" placeholder="Please edit"></el-input>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col>
-                    <el-date-picker v-model="editDuetime" type="datetime" placeholder="选择日期时间" align="right"
+                    <el-date-picker v-model="editDuetime" type="datetime" placeholder="Please choose a time" align="right"
                         :picker-options="pickerOptions" style="width: 100%;">
                     </el-date-picker>
                 </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="updatedialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="modfieData()">确 定</el-button>
+                <el-button @click="updatedialogVisible = false">No</el-button>
+                <el-button type="primary" @click="modfieData()">Yes</el-button>
             </span>
         </el-dialog>
 
-        <el-dialog title="删除" :visible.sync="deletedialogVisible" width="30%">
+        <el-dialog title="Delete" :visible.sync="deletedialogVisible" width="30%">
             <el-row>
                 <el-col>
                     <!-- 修改内容 -->
-                    您确定要删除吗？
+                    Are you sure you want to delete?
                 </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="deletedialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handledelete()">确 定</el-button>
+                <el-button @click="deletedialogVisible = false">No</el-button>
+                <el-button type="primary" @click="handledelete()">Yes</el-button>
             </span>
         </el-dialog>
     </div>
@@ -169,7 +167,23 @@ export default {
                 ]
             },
             name: localStorage.getItem('ms_username'),
-            todoList: [],
+            todoList: [
+                {
+                    title:"the first thing",
+                    due_date:"123213123",
+                    status:"asd"
+                },
+                {
+                    title:"the first thing",
+                    due_date:"123213123",
+                    status:"asd"
+                },
+                {
+                    title:"the first thing",
+                    due_date:"123213123",
+                    status:"asd"
+                },
+            ],
             doneList: [],
             deletedialogVisible: false,
             delTaskId: '',
