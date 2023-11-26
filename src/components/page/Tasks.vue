@@ -28,12 +28,18 @@
                             :key="scope.row.id"></el-checkbox>
                     </template>
                 </el-table-column>
-                <el-table-column type="index" label="任务序号" width="180"> </el-table-column>
+                <el-table-column type="index" label="任务序号" width="70"> </el-table-column>
                 <el-table-column prop="title" label="任务内容" width="500"> </el-table-column>
                 <el-table-column label="截止日期" width="300">
                     <template slot-scope="scope">
                         <!-- 假设 formatDate 是您的格式化函数 -->
                         {{ formatDate(scope.row.due_date) }}
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" width="100">
+                    <template slot-scope="scope">
+                        <!-- 假设 formatDate 是您的格式化函数 -->
+                        {{scope.row._important}}
                     </template>
                 </el-table-column>
                 <!-- <template slot-scope="scope">
@@ -48,7 +54,7 @@
 
                 <el-table-column>
                     <template slot-scope="scope">
-                        <el-button type="primary" icon="el-icon-delete" circle
+                        <el-button type="danger" icon="el-icon-delete" circle
                             @click="delOp(scope.$index, scope.row, 'todo')"></el-button>
                     </template>
                 </el-table-column>
@@ -88,7 +94,7 @@
 
                 <el-table-column>
                     <template slot-scope="scope">
-                        <el-button type="primary" icon="el-icon-delete" circle
+                        <el-button type="danger" icon="el-icon-delete" circle
                             @click="delOp(scope.$index, scope.row, 'done')"></el-button>
                     </template>
                 </el-table-column>

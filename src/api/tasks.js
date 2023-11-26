@@ -42,7 +42,13 @@ export const getImportantList = () => {
     });
     //获取重要任务
 };
-
+export const getNormalList = () => {
+    return request({
+        url: '/api/tasks?mode=normal',
+        method: 'get',
+    });
+    //获取普通任务
+}
 
 export const completeTask = query => {
     return request({
@@ -62,9 +68,8 @@ export const uncompleteTask = query => {
 
 export const addimpotant = query => {
     return request({
-        url: 'http://127.0.0.1:4523/m1/3645045-0-default/user/tasks',
-        method: 'post',
-        data : query
+        url: '/api/tasks/'+ query + '/important?status=true',
+        method: 'get',
     });
     //从drawer中将未完成任务添加未已完成任务
 };

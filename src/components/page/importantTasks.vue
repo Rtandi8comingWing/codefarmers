@@ -3,17 +3,18 @@
         <el-card shadow="hover">
             <div slot="header" class="clearfix">
                 <span>Important Tasks</span>
-                <el-button style="float: right" type="primary" @click="drawer = true" >添加</el-button>
+                <el-button style="float: right" type="primary" @click="drawer = true">添加</el-button>
             </div>
-            <el-table :show-header="true" :data="importantList" style="width: 100%" height="600">
+            <el-table :show-header="true" :data="filteredList" style="width: 100%" height="600">
                 <el-table-column width="40">
                     <template slot-scope="scope">
-                        <el-checkbox v-model="scope.row.status" @change="updateStatus1(scope.$index, scope.row)"></el-checkbox>
+                        <el-checkbox v-model="scope.row._completed"
+                            @change="updateStatus1(scope.$index, scope.row)"></el-checkbox>
                     </template>
                 </el-table-column>
                 <el-table-column type="index" label="#" width="180"> </el-table-column>
-                <el-table-column prop="content" label="Content" width="500"> </el-table-column>
-                <el-table-column prop="duetime" label="Duetime" width="300"> </el-table-column>
+                <el-table-column prop="title" label="Content" width="500"></el-table-column>
+                <el-table-column prop="due_date" label="Duetime" width="300"> </el-table-column>
 
                 <el-table-column label="Edit">
                     <template slot-scope="scope">
@@ -23,7 +24,8 @@
 
                 <el-table-column label="Delete">
                     <template slot-scope="scope">
-                        <el-button type="primary" icon="el-icon-delete" circle @click="delOp(scope.$index, scope.row)"></el-button>
+                        <el-button type="danger" icon="el-icon-delete" circle
+                            @click="delOp(scope.$index, scope.row)"></el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -37,11 +39,11 @@
             <el-table :show-header="true" :data="todoList" style="width: 100%" height="600">
                 <el-table-column width="60">
                     <template slot-scope="scope">
-                        <el-button type="primary" icon="el-icon-plus" circle @click="addintoOp(scope.$index, scope.row)"></el-button>
+                        <el-button type="primary" icon="el-icon-plus" circle @click="addintoOp(scope.row)"></el-button>
                     </template>
                 </el-table-column>
-                <el-table-column type="index" label="#" width="180"> </el-table-column>
-                <el-table-column prop="content" label="Content"> </el-table-column>
+                <el-table-column type="index" label="Task" width="70"> </el-table-column>
+                <el-table-column prop="title" label="Title"> </el-table-column>
             </el-table>
         </el-drawer>
 
@@ -50,13 +52,8 @@
                 <el-col>
                     <!-- 修改内容 -->
                     <el-input v-model="editContent" style="margin-bottom:20px"></el-input>
-                    <el-date-picker
-                        v-model="editDuetime"
-                        type="datetime"
-                        placeholder="选择日期时间"
-                        align="right"
-                        :picker-options="pickerOptions"
-                    >
+                    <el-date-picker v-model="editDuetime" type="datetime" placeholder="选择日期时间" align="right"
+                        :picker-options="pickerOptions">
                     </el-date-picker>
                 </el-col>
             </el-row>
@@ -82,81 +79,48 @@
 </template>
 
 <script>
-import { getTodoList, getImportantList, addimpotant } from '../../api/tasks.js';
+import { getTodoList, getImportantList, completeTask, uncompleteTask, addimpotant, getNormalList } from '../../api/tasks.js';
 export default {
+    computed: {
+        filteredList() {
+            return this.importantList.filter(item => !item._completed);
+        }
+    },
     data: function () {
         return {
             name: localStorage.getItem('ms_username'),
-            importantList: [
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                },
-                {
-                    content: '选项1',
-                    duetime: '今天'
-                }
-            ],
+            importantList: [],
             todoList: [],
             drawer: false,
             deletedialogVisible: false,
             delTaskId: '',
             index: '',
             updatedialogVisible: false,
-            editTaskId : '',
-            editContent : '',
-            editDuetime : ''
+            editTaskId: '',
+            editContent: '',
+            editDuetime: ''
         };
     },
     methods: {
-        getImportantListOp(name) {
-            let info = {
-                "name": name
-            };
-            getImportantList(info).then((res) => {
-                this.importantList = res.rows;
+        getImportantListOp() {
+            getImportantList().then((res) => {
+                this.importantList = res;
             });
         },
-        getTodoListOp(name) {
-            let info = {
-                "name": name
-            };
-            getTodoList(info).then((res) => {
-                this.todoList = res.rows;
+        getNormalListOp() {
+            getNormalList().then((res) => {
+                this.todoList = res;
             });
         },
-        addintoOp(index, Item) {
+        addintoOp(Item) {
             addimpotant(Item.id).then((res) => {
-                if (res.result == '1') {
+                if (res === '任务已标记为重要') {
                     this.$message({
                         message: 'Task add successfully',
                         type: 'success'
                     });
-                    this.importantList.splice(index, 1);
+                    this.getNormalListOp();
+                    this.getImportantListOp();
                 } else {
                     this.$message({
                         message: 'Task add unsuccessfully',
@@ -178,25 +142,49 @@ export default {
                 "taskDuetime": this.editDuetime,
             };
             updateTaskInfo(info).then(res => {
-					// 2. 根据反馈的结果进行提示
-					if (res.result == 1) {
-						this.$message({
-							message: '修改成功',
-							type: 'success'
-						})
-						// 3. 如果修改成功，再让对话框消失
-						this.updatedialogVisible = false;
-						this.editTaskId = '';
-						this.editContent = '';
-						this.editDuetime = '';
-					}
-				});
+                // 2. 根据反馈的结果进行提示
+                if (res.result == 1) {
+                    this.$message({
+                        message: '修改成功',
+                        type: 'success'
+                    })
+                    // 3. 如果修改成功，再让对话框消失
+                    this.updatedialogVisible = false;
+                    this.editTaskId = '';
+                    this.editContent = '';
+                    this.editDuetime = '';
+                }
+            });
         },
         delOp(index, todoItem) {
             console.log(todoItem);
             this.deletedialogVisible = true;
             this.delTaskId = todoItem.id;
             this.index = index;
+        },
+        updateStatus1(index, todoItem) {
+            if (todoItem._completed) {
+                completeTask(todoItem.id).then((res) => {
+                    if (res === "任务已标记为完成") {
+                        this.$message({
+                            message: `任务 ${todoItem.title} 已完成`,
+                            type: 'success'
+                        });
+                        // todoItem._completed = true;
+                        this.getImportantListOp();
+                        // newDoneTask(todoItem.id).then((res) => {
+                        //     if (res.result == '1') {
+                        //         console.log(`任务 ${todoItem.id} 已完成`);
+                        //     }
+                        // });
+                    } else {
+                        this.$message({
+                            message: '发生错误',
+                            type: 'error'
+                        });
+                    }
+                });
+            }
         },
         handledelete() {
             let info = {
@@ -226,8 +214,8 @@ export default {
         }
     },
     created() {
-        getImportantListOp(this.name),
-        getTodoListOp(this.name)
+        this.getImportantListOp()
+        this.getNormalListOp()
     }
 };
 </script>
