@@ -53,6 +53,14 @@ export const logout = () => {
     });
 };
 
+export const registerAPI = query => {
+    return request({
+        url: '/api/users/register',
+        method: 'post',
+        data: query
+    });
+};
+
 export const chart1 = () => {
     return request({
         url: 'http://127.0.0.1:4523/m1/2794878-0-default/chart1',
