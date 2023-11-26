@@ -41,7 +41,7 @@ export default {
                     caption: 'Allen'
                 },
                 {
-                    url:require('../../assets/img/codefarmer3.jpg') ,
+                    url:require('../../assets/img/codefarmer3.png') ,
                     caption: 'Alchemy'
                 },
                 {
