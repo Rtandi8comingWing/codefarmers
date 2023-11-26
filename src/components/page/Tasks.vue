@@ -2,12 +2,13 @@
     <div class="tasks-container">
         <el-card>
             <el-row>
-                <el-col :span="16" class="center-col" >
-                    <el-input v-model="taskModle.content" placeholder="Please add your task here!" style="font-size: 18px;"></el-input>
+                <el-col :span="16" class="center-col">
+                    <el-input v-model="taskModle.content" placeholder="Please add your task here!"
+                        style="font-size: 18px;"></el-input>
                 </el-col>
                 <el-col :span="7" class="center-col">
-                    <el-date-picker v-model="taskModle.duetime" type="datetime" placeholder="Please choice due date" style="font-size: 15px;" align="right"
-                        :picker-options="pickerOptions">
+                    <el-date-picker v-model="taskModle.duetime" type="datetime" placeholder="Please choice due date"
+                        style="font-size: 15px;" align="right" :picker-options="pickerOptions">
                     </el-date-picker>
                 </el-col>
                 <el-col :span="1" class="center-col">
@@ -20,8 +21,8 @@
             <div slot="header" class="clearfix" style="font-size:25px;">
                 <span>To do List</span>
             </div>
-            <el-table :show-header="true" :data="todoList" style="width: 100%;font-size:16px; " height="300" >
-                <el-table-column width="40">
+            <el-table :show-header="true" :data="todoList" style="width: 100%;font-size:16px; " height="300">
+                <el-table-column width="30">
                     <template slot-scope="scope">
                         <el-checkbox v-model="scope.row._completed" @change="updateStatus1(scope.$index, scope.row)"
                             :key="scope.row.id"></el-checkbox>
@@ -29,16 +30,16 @@
                 </el-table-column>
                 <el-table-column type="index" label="Task" width="70"> </el-table-column>
                 <el-table-column prop="title" label="Content" width="500"> </el-table-column>
-                <el-table-column label="Due date" width="320">
+                <el-table-column label="Due date" width="280">
                     <template slot-scope="scope">
                         <!-- 假设 formatDate 是您的格式化函数 -->
                         {{ formatDate(scope.row.due_date) }}
                     </template>
                 </el-table-column>
-                <el-table-column label="Status" width="140">
+                <el-table-column label="Status" width="100">
                     <template slot-scope="scope">
-                        <!-- 假设 formatDate 是您的格式化函数 -->
-                        {{scope.row._important}}
+                        <span v-if="scope.row._important">important</span>
+                        <span v-else>normal</span>
                     </template>
                 </el-table-column>
                 <!-- <template slot-scope="scope">
@@ -65,7 +66,7 @@
                 <span>Done List</span>
             </div>
             <el-table :show-header="true" :data="doneList" style="width: 100%;font-size:16px;" height="300">
-                <el-table-column width="40">
+                <el-table-column width="30">
                     <template slot-scope="scope">
                         <el-checkbox v-model="scope.row._completed" @change="updateStatus2(scope.$index, scope.row)"
                             :key="scope.row.id"></el-checkbox>
@@ -78,7 +79,7 @@
                         <div class="todo-item-del">{{ scope.row.title }}</div>
                     </template>
                 </el-table-column>
-                <el-table-column label="Due date" width="320">
+                <el-table-column label="Due date" width="280">
                     <template slot-scope="scope">
                         <div class="todo-item-del">{{ formatDate(scope.row.due_date) }}</div>
                     </template>
@@ -122,7 +123,7 @@
         <el-dialog title="Delete" :visible.sync="deletedialogVisible" width="30%">
             <el-row>
                 <el-col>
-                    <!-- 修改内容 -->
+                    <!-- Modify content -->
                     Are you sure you want to delete?
                 </el-col>
             </el-row>
@@ -136,6 +137,9 @@
 
 <script>
 import { addTask, login, getTodoList, getDoneList, completeTask, uncompleteTask, updateTaskInfo, deleteTask } from '../../api/tasks.js';
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+locale.use(lang)
 export default {
     data: function () {
         return {
@@ -143,13 +147,13 @@ export default {
             pickerOptions: {
                 shortcuts: [
                     {
-                        text: '今天',
+                        text: 'Today',
                         onClick(picker) {
                             picker.$emit('pick', new Date());
                         }
                     },
                     {
-                        text: '明天',
+                        text: 'Tomorrow',
                         onClick(picker) {
                             const date = new Date();
                             date.setTime(date.getTime() + 3600 * 1000 * 24);
@@ -157,7 +161,7 @@ export default {
                         }
                     },
                     {
-                        text: '后天',
+                        text: 'Day after tomorrow',
                         onClick(picker) {
                             const date = new Date();
                             date.setTime(date.getTime() + 3600 * 1000 * 24 * 2);
@@ -168,21 +172,21 @@ export default {
             },
             name: localStorage.getItem('ms_username'),
             todoList: [
-                {
-                    title:"the first thing",
-                    due_date:"123213123",
-                    status:"asd"
-                },
-                {
-                    title:"the first thing",
-                    due_date:"123213123",
-                    status:"asd"
-                },
-                {
-                    title:"the first thing",
-                    due_date:"123213123",
-                    status:"asd"
-                },
+                // {
+                //     title:"the first thing",
+                //     due_date:"123213123",
+                //     status:"asd"
+                // },
+                // {
+                //     title:"the first thing",
+                //     due_date:"123213123",
+                //     status:"asd"
+                // },
+                // {
+                //     title:"the first thing",
+                //     due_date:"123213123",
+                //     status:"asd"
+                // },
             ],
             doneList: [],
             deletedialogVisible: false,
@@ -199,7 +203,7 @@ export default {
         formatDate(isoString) {
             const date = new Date(isoString);
             let year = date.getFullYear();
-            let month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份是从0开始的
+            let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
             let day = date.getDate().toString().padStart(2, '0');
             let hours = date.getHours().toString().padStart(2, '0');
             let minutes = date.getMinutes().toString().padStart(2, '0');
@@ -215,7 +219,7 @@ export default {
             addTask(info).then((res) => {
                 if (res.id !== undefined) {
                     this.$message({
-                        message: '任务新增成功',
+                        message: 'Task added successfully',
                         type: 'success'
                     });
                     this.taskModle.content = '';
@@ -223,10 +227,23 @@ export default {
                     this.todoList.push(res);
                 } else {
                     this.$message({
-                        message: '任务新增失败',
+                        message: 'Failed to add task',
                         type: 'error'
                     });
                 }
+            }).catch(err => {
+                console.log(err);
+                const validationErrors = err.response.data.errors;
+                let errorMessages = [];
+                validationErrors.forEach(err => {
+                    err.defaultMessage += ". ";
+                    errorMessages.push(err.defaultMessage);
+                });
+                this.$message({
+                    message: errorMessages.join(" "),
+                    type: 'error'
+                });
+
             });
         },
         getTodoListOp() {
@@ -244,7 +261,7 @@ export default {
                 completeTask(todoItem.id).then((res) => {
                     if (res === "任务已标记为完成") {
                         this.$message({
-                            message: `任务 ${todoItem.title} 已完成`,
+                            message: `Task ${todoItem.title} completed`,
                             type: 'success'
                         });
                         todoItem._completed = true;
@@ -252,12 +269,12 @@ export default {
                         this.todoList.splice(index, 1);
                         // newDoneTask(todoItem.id).then((res) => {
                         //     if (res.result == '1') {
-                        //         console.log(`任务 ${todoItem.id} 已完成`);
+                        //         console.log(`Task ${todoItem.id} completed`);
                         //     }
                         // });
                     } else {
                         this.$message({
-                            message: '发生错误',
+                            message: 'An error occurred',
                             type: 'error'
                         });
                     }
@@ -269,7 +286,7 @@ export default {
                 uncompleteTask(todoItem.id).then((res) => {
                     if (res === "任务已取消标记为完成") {
                         this.$message({
-                            message: `任务 ${todoItem.title} 已标记为未完成`,
+                            message: `Task ${todoItem.title} marked as incomplete`,
                             type: 'success'
                         });
                         todoItem._completed = false;
@@ -277,12 +294,12 @@ export default {
                         this.doneList.splice(index, 1);
                         // newTodoTask(todoItem.id).then((res) => {
                         //     if (res.result == '1') {
-                        //         console.log(`任务 ${todoItem.id} 已完成`);
+                        //         console.log(`Task ${todoItem.id} completed`);
                         //     }
                         // });
                     } else {
                         this.$message({
-                            message: '发生错误',
+                            message: 'An error occurred',
                             type: 'error'
                         });
                     }
@@ -310,7 +327,7 @@ export default {
             updateTaskInfo(info).then(res => {
                 if (res === "修改成功") {
                     this.$message({
-                        message: '修改成功',
+                        message: 'Modification successful',
                         type: 'success'
                     });
 
@@ -329,14 +346,14 @@ export default {
                         }
                     }
 
-                    // 关闭对话框并清除数据
+                    // Close the dialog and clear the data
                     this.updatedialogVisible = false;
                     this.editTaskId = '';
                     this.editContent = '';
                     this.editDuetime = '';
                 } else {
                     this.$message({
-                        message: '修改失败',
+                        message: 'Modification failed',
                         type: 'error'
                     });
                     this.updatedialogVisible = false;
@@ -357,27 +374,27 @@ export default {
             deleteTask(info).then((res) => {
                 if (res === "删除成功") {
                     this.$message({
-                        message: '删除成功',
+                        message: 'Deletion successful',
                         type: 'success'
                     });
                     if (this.listType === 'todo') {
-                        // 从待办列表中删除
+                        // Remove from the todo list
                         this.todoList.splice(this.index, 1);
                     } else if (this.listType === 'done') {
-                        // 从已完成列表中删除
+                        // Remove from the done list
                         this.doneList.splice(this.index, 1);
                     }
 
-                    //  如果删除成功，再让对话框消失
+                    // If deletion is successful, make the dialog disappear
                     this.deletedialogVisible = false;
-                    // 并将全局变量设置为空，供下一次删除使用
+                    // And set the global variables to empty for the next deletion
                     this.delTaskId = '';
                     this.index = '';
                 } else {
                     this.deletedialogVisible = false;
-                    // 如果删除失败，则弹出对话框删除失败
+                    // If deletion fails, display a dialog box indicating deletion failure
                     this.$message({
-                        message: '删除失败',
+                        message: 'Deletion failed',
                         type: 'error'
                     });
                 }

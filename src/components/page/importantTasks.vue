@@ -12,9 +12,13 @@
                             @change="updateStatus1(scope.$index, scope.row)"></el-checkbox>
                     </template>
                 </el-table-column>
-                <el-table-column type="index" label="#" width="180"> </el-table-column>
+                <el-table-column type="index" label="#" width="100"> </el-table-column>
                 <el-table-column prop="title" label="Content" width="500"></el-table-column>
-                <el-table-column prop="due_date" label="Duetime" width="300"> </el-table-column>
+                <el-table-column label="Duetime" width="300">
+                    <template slot-scope="scope">
+                        <span>{{ formatDate(scope.row.due_date)}}</span>
+                    </template>
+                </el-table-column>
 
                 <el-table-column label="Edit">
                     <template slot-scope="scope">
@@ -34,7 +38,7 @@
         <el-drawer title="add your important tasks!" :visible.sync="drawer" :with-header="true">
             <div slot="header" class="clearfix">
                 <span>Important Tasks</span>
-                <el-button style="float: right" type="primary" @click="drawer = true">添加</el-button>
+                <el-button style="float: right" type="primary" @click="drawer = true">Add</el-button>
             </div>
             <el-table :show-header="true" :data="todoList" style="width: 100%" height="600">
                 <el-table-column width="60">
@@ -47,32 +51,32 @@
             </el-table>
         </el-drawer>
 
-        <el-dialog title="修改" :visible.sync="updatedialogVisible" width="30%">
+        <el-dialog title="Edit" :visible.sync="updatedialogVisible" width="30%">
             <el-row>
                 <el-col>
-                    <!-- 修改内容 -->
+                    <!-- Edit Content -->
                     <el-input v-model="editContent" style="margin-bottom:20px"></el-input>
-                    <el-date-picker v-model="editDuetime" type="datetime" placeholder="选择日期时间" align="right"
+                    <el-date-picker v-model="editDuetime" type="datetime" placeholder="Select Date and Time" align="right"
                         :picker-options="pickerOptions">
                     </el-date-picker>
                 </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="updatedialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="modfieData()">确 定</el-button>
+                <el-button @click="updatedialogVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="modfieData()">Confirm</el-button>
             </span>
         </el-dialog>
 
-        <el-dialog title="删除" :visible.sync="deletedialogVisible" width="30%">
+        <el-dialog title="Delete" :visible.sync="deletedialogVisible" width="30%">
             <el-row>
                 <el-col>
-                    <!-- 修改内容 -->
-                    您确定要删除吗？
+                    <!-- Edit Content -->
+                    Are you sure you want to delete?
                 </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="deletedialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handledelete()">确 定</el-button>
+                <el-button @click="deletedialogVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="handledelete()">Confirm</el-button>
             </span>
         </el-dialog>
     </div>
@@ -80,6 +84,9 @@
 
 <script>
 import { getTodoList, getImportantList, completeTask, uncompleteTask, addimpotant, getNormalList } from '../../api/tasks.js';
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+locale.use(lang)
 export default {
     computed: {
         filteredList() {
@@ -102,6 +109,17 @@ export default {
         };
     },
     methods: {
+        formatDate(isoString) {
+            const date = new Date(isoString);
+            let year = date.getFullYear();
+            let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            let day = date.getDate().toString().padStart(2, '0');
+            let hours = date.getHours().toString().padStart(2, '0');
+            let minutes = date.getMinutes().toString().padStart(2, '0');
+            let seconds = date.getSeconds().toString().padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
         getImportantListOp() {
             getImportantList().then((res) => {
                 this.importantList = res;
@@ -116,14 +134,14 @@ export default {
             addimpotant(Item.id).then((res) => {
                 if (res === '任务已标记为重要') {
                     this.$message({
-                        message: 'Task add successfully',
+                        message: 'The task has been marked as important',
                         type: 'success'
                     });
                     this.getNormalListOp();
                     this.getImportantListOp();
                 } else {
                     this.$message({
-                        message: 'Task add unsuccessfully',
+                        message: 'Task add unsuccessful',
                         type: 'error'
                     });
                 }
@@ -142,13 +160,13 @@ export default {
                 "taskDuetime": this.editDuetime,
             };
             updateTaskInfo(info).then(res => {
-                // 2. 根据反馈的结果进行提示
-                if (res.result == 1) {
+                // 2. Show feedback based on the result
+                if (res.result === '修改成功') {
                     this.$message({
-                        message: '修改成功',
+                        message: 'Modification successful',
                         type: 'success'
                     })
-                    // 3. 如果修改成功，再让对话框消失
+                    // 3. If the modification is successful, make the dialog disappear
                     this.updatedialogVisible = false;
                     this.editTaskId = '';
                     this.editContent = '';
@@ -167,19 +185,19 @@ export default {
                 completeTask(todoItem.id).then((res) => {
                     if (res === "任务已标记为完成") {
                         this.$message({
-                            message: `任务 ${todoItem.title} 已完成`,
+                            message: `Task ${todoItem.title} completed`,
                             type: 'success'
                         });
                         // todoItem._completed = true;
                         this.getImportantListOp();
                         // newDoneTask(todoItem.id).then((res) => {
                         //     if (res.result == '1') {
-                        //         console.log(`任务 ${todoItem.id} 已完成`);
+                        //         console.log(`Task ${todoItem.id} completed`);
                         //     }
                         // });
                     } else {
                         this.$message({
-                            message: '发生错误',
+                            message: 'Error occurred',
                             type: 'error'
                         });
                     }
@@ -191,22 +209,22 @@ export default {
                 "taskId": this.delTaskId
             };
             deleteTask(info).then((res) => {
-                if (res.result == 1) {
+                if (res === '删除成功') {
                     this.$message({
-                        message: '删除成功',
+                        message: 'Deletion successful',
                         type: 'success'
                     });
                     this.todoList.splice(this.index, 1);
-                    //  如果删除成功，再让对话框消失
+                    //  If the deletion is successful, make the dialog disappear
                     this.deletedialogVisible = false;
-                    // 并将全局变量设置为空，供下一次删除使用
+                    // And set the global variables to empty for the next deletion
                     this.delTaskId = '';
                     this.index = '';
                 } else {
                     this.deletedialogVisible = false;
-                    // 如果删除失败，则弹出对话框删除失败
+                    // If the deletion fails, pop up a dialog box to indicate deletion failure
                     this.$message({
-                        message: '删除失败',
+                        message: 'Deletion failed',
                         type: 'error'
                     });
                 }

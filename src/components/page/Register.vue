@@ -2,28 +2,28 @@
     <div class="register-content">
         <el-card class="box-card">
             <div slot="header" class="clearfix">
-                <span>注册</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="toLogin">我有账号，去登录</el-button>
+                <span>Register</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="toLogin">Already have an account? Go back to the login page</el-button>
             </div>
-            <el-form :rules="rules" :model="formData" ref="formData" label-width="80px" class="demo-ruleForm">
-                <el-form-item label="用户名" prop="username">
+            <el-form :rules="rules" :model="formData" ref="formData" label-width="150px" class="demo-ruleForm">
+                <el-form-item label="Username" prop="username">
                     <el-input v-model.trim="formData.username" type="text" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
+                <el-form-item label="Password" prop="password">
                     <el-input v-model.trim="formData.password" @blur="checkPassword" type="password"
                         auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码" prop="confirmPassword">
+                <el-form-item label="Confirm Password" prop="confirmPassword">
                     <el-input v-model.trim="formData.confirmPassword" @blur="checkPassword" type="password"
                         auto-complete="off"></el-input>
                     <div class="el-form-item__error" ref="confirmPassword"></div>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
+                <el-form-item label="Email" prop="email">
                     <el-input v-model.trim="formData.email" type="text" required=true auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="register('formData')">注册</el-button>
-                    <el-button @click="reset">重置</el-button>
+                    <el-button type="primary" @click="register('formData')">Register</el-button>
+                    <el-button @click="reset">Reset</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -36,28 +36,28 @@ export default {
     name: 'Register',
     data: () => {
         return {
-            // 表单数据
+            // Form data
             formData: {
                 username: '',
                 password: '',
                 confirmPassword: '',
                 email: ''
             },
-            // 表单验证规则
+            // Form validation rules
             rules: {
                 username: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
+                    { required: true, message: 'Please enter a username', trigger: 'blur' },
+                    { min: 3, max: 20, message: 'Length should be between 3 and 20 characters', trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 8, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
-                    { pattern: /^(?=.*[a-zA-Z])(?=.*\d|\W).*$/, message: '密码必须包含数字和字母、特殊符号中的两种', trigger: 'blur' }
+                    { required: true, message: 'Please enter a password', trigger: 'blur' },
+                    { min: 8, max: 20, message: 'Length should be between 6 and 20 characters', trigger: 'blur' },
+                    { pattern: /^(?=.*[a-zA-Z])(?=.*\d|\W).*$/, message: 'Password must contain at least two of the following: letters, numbers, special characters', trigger: 'blur' }
                 ],
-                confirmPassword: { required: true, message: '请再次输入密码', trigger: 'blur' },
+                confirmPassword: { required: true, message: 'Please enter the password again', trigger: 'blur' },
                 email: [
-                    { required: true, message: '请输入邮箱', trigger: 'blur' },
-                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+                    { required: true, message: 'Please enter an email', trigger: 'blur' },
+                    { type: 'email', message: 'Please enter a valid email address', trigger: ['blur', 'change'] }
                 ]
             }
         }
@@ -70,46 +70,46 @@ export default {
                 this.$refs.confirmPassword.innerHTML = ''
                 return false
             } else if (this.formData.confirmPassword !== this.formData.password) {
-                this.$refs.confirmPassword.innerHTML = '两次输入的密码不一致'
+                this.$refs.confirmPassword.innerHTML = 'The passwords entered do not match'
                 return false
             }
             this.$refs.confirmPassword.innerHTML = ''
             return true
         },
-        // 注册函数
+        // Register function
         register(formData) {
             this.$refs[formData].validate(async valid => {
                 if (valid) {
-                    if (!this.checkPassword()) return this.$message('请填写正确信息')
-                    // 从返回的数据中解析data数据，并且重命名为res
+                    if (!this.checkPassword()) return this.$message('Please fill in the correct information')
+                    // Parse the data from the response and rename it as 'res'
                     registerAPI(this.formData).then(res => {
                         if (res.id !== undefined) {
                             this.$message({
-                                message: '注册成功',
+                                message: 'Registration successful',
                                 type: 'success'
                             })
                             this.$router.push('/login')
                         }
                     }).catch(err => {
                         this.$message({
-                            message: '注册失败，用户名或邮箱已存在',
+                            message: 'Registration failed, username or email already exists',
                             type: 'error'
                         })
                     })
                 } else {
                     this.reset()
-                    this.$message('请填写正确信息')
+                    this.$message('Please fill in the correct information')
                 }
             })
         },
-        // 重置函数
+        // Reset function
         reset() {
             this.formData.username = ''
             this.formData.password = ''
             this.formData.confirmPassword = ''
             this.formData.email = ''
         },
-        // 跳转到登录页面
+        // Go back to the login page
         toLogin() {
             this.$router.push('/login')
         }
@@ -118,6 +118,14 @@ export default {
 </script>
   
 <style>
+.register-content{
+    background-image: url(../../assets/img/background2.png);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+
 .box-card {
     position: absolute;
     top: 50%;
@@ -131,15 +139,4 @@ export default {
     align-items: center;
     justify-content: space-between;
 }
-
-.codeImg {
-    margin: 0 15px;
-    border-radius: 10px;
-}
-
-.changeCodeImg {
-    width: 100px;
-    color: #409eff;
-    text-decoration: none;
-    cursor: pointer;
-}</style>
+</style>

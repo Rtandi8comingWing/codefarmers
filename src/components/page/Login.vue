@@ -19,11 +19,11 @@
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm()">登录</el-button>
+                    <el-button type="primary" @click="submitForm()">Login</el-button>
                 </div>
                 <div class="register-link-container">
                     <router-link to="/register">
-                        <el-button type="text" class="register-btn">没有账号？点击注册</el-button>
+                        <el-button type="text" class="register-btn">No account? Register!</el-button>
                     </router-link>
                 </div>
             </el-form>
@@ -42,8 +42,8 @@ export default {
                 password: '',
             },
             rules: {
-                username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+                username: [{ required: true, message: 'Please enter your username', trigger: 'blur' }],
+                password: [{ required: true, message: 'Please enter your password', trigger: 'blur' }],
             },
         };
     },
@@ -57,20 +57,20 @@ export default {
 					//调用登陆的接口
 					loginInfo(this.param).then(res => {
                         this.$message({
-                            message: '登录成功',
+                            message: 'Login sussessfully',
                             type: 'success',
                         });
                         localStorage.setItem('ms_username', this.param.username);
                         this.$router.push('/');
 					}).catch(err => {
                         this.$message({
-                            message: '登录失败，请检查账号和密码并重试',
+                            message: 'Login failed, please check your username and password',
                             type: 'error',
                         });
                     });
                 }
                 else {
-                    this.$message.error('请输入账号和密码');
+                    this.$message.error('Please check your username and password');
                     console.log('error submit!!');
                     return false;
                 }
@@ -86,7 +86,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url(../../assets/img/login-bg.jpg);
+    background-image: url(../../assets/img/login-bg.png);
     background-size: 100%;
 }
 .ms-title {
@@ -94,7 +94,7 @@ export default {
     line-height: 50px;
     text-align: center;
     font-size: 20px;
-    color: #000000;
+    color: #fff;
     border-bottom: 1px solid #ddd;
 }
 .ms-login {
@@ -104,7 +104,7 @@ export default {
     width: 350px;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(65, 62, 62, 0.6);
     overflow: hidden;
 }
 .ms-content {
@@ -121,8 +121,8 @@ export default {
 
 .register-btn {
     margin-top: 10px;
-    font-size: 14px;
-    color: #409EFF; /* 设置字体颜色 */
+    font-size: 15px;
+    color: crimson; /* 设置字体颜色 */
     font-weight: bold; /* 加粗字体 */
     /* 添加更多样式来调整按钮的外观 */
 }
