@@ -17,7 +17,7 @@ export default new Router({
                 {
                     path: '/dashboard',
                     component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                    meta: { title: '系统首页' }
+                    meta: { title: 'Dashboard' }
                 },
 				//测试页面
 				{
@@ -38,12 +38,12 @@ export default new Router({
                 {
                     path: '/tasks',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/Tasks.vue'),
-                    meta: { title: '任务' }
+                    meta: { title: 'Tasks' }
                 },
                 {
                     path: '/importantTasks',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/importantTasks.vue'),
-                    meta: { title: '重要任务' }
+                    meta: { title: 'Important Tasks' }
                 },
                 {
                     path: '/list',

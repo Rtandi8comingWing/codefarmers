@@ -1,11 +1,11 @@
 <template>
     <div class="importantcontainer">
         <el-card shadow="hover">
-            <div slot="header" class="clearfix">
+            <div slot="header" class="clearfix" style="font-size:25px;">
                 <span>Important Tasks</span>
-                <el-button style="float: right" type="primary" @click="drawer = true">添加</el-button>
+                <el-button style="float: right" type="primary" @click="drawer = true">Add important tasks</el-button>
             </div>
-            <el-table :show-header="true" :data="filteredList" style="width: 100%" height="600">
+            <el-table :show-header="true" :data="filteredList" style="width: 100%;font-size:16px;" height="600">
                 <el-table-column width="40">
                     <template slot-scope="scope">
                         <el-checkbox v-model="scope.row._completed"

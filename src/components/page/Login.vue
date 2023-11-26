@@ -51,18 +51,18 @@ export default {
         submitForm() {
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    // loginInfo(this.param).then(res => {
-                    //     console.log(res);
-                    // });
-                    //调用登陆的接口
-                    loginInfo(this.param).then(res => {
+					// loginInfo(this.param).then(res => {
+					//     console.log(res);
+					// });
+					//调用登陆的接口
+					loginInfo(this.param).then(res => {
                         this.$message({
                             message: '登录成功',
                             type: 'success',
                         });
                         localStorage.setItem('ms_username', this.param.username);
                         this.$router.push('/');
-                    }).catch(err => {
+					}).catch(err => {
                         this.$message({
                             message: '登录失败，请检查账号和密码并重试',
                             type: 'error',

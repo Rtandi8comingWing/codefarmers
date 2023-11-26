@@ -33,6 +33,7 @@
                             <el-menu-item
                                 v-else
                                 :index="subItem.index"
+                                :key="subItem.index"
                             >{{ subItem.title }}</el-menu-item>
                         </template>
                     </el-submenu>
@@ -58,17 +59,17 @@ export default {
                 {
                     icon: 'el-icon-lx-home',
                     index: 'dashboard',
-                    title: '系统首页'
+                    title: 'Dashboard'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
+                    icon: 'el-icon-s-order',
                     index: 'tasks',
-                    title: '任务'
+                    title: 'Tasks'
                 },
                 {
                     icon: 'el-icon-lx-cascades',
                     index: 'importantTasks',
-                    title: '重要任务'
+                    title: 'Important Tasks'
                 }
             ]
         };
