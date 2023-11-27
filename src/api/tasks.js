@@ -76,7 +76,7 @@ export const addimpotant = query => {
 
 export const deleteTask = query => {
     return request({
-        url: 'http://10.69.206.242/api/tasks/' + query.taskId,
+        url: '/api/tasks/' + query.taskId,
         method: 'delete',
         data : query
     });

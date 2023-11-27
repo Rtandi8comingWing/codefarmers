@@ -34,7 +34,7 @@ export default {
                 },
                 {
                     url:require('../../assets/img/codefarmer1.jpg') ,
-                    caption: 'Maveric'
+                    caption: 'Maverick'
                 },
                 {
                     url:require('../../assets/img/codefarmer2.png') ,
@@ -48,6 +48,10 @@ export default {
                     url:require('../../assets/img/codefarmer4.png') ,
                     caption: 'Patrick'
                 },
+                {
+                    url:require('../../assets/img/codefarmer5.jpg') ,
+                    caption: 'Mike'
+                }
             ]
         };
     },

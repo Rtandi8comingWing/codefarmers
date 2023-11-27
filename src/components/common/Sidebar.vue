@@ -67,7 +67,7 @@ export default {
                     title: 'Tasks'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
+                    icon: 'el-icon-star-on',
                     index: 'importantTasks',
                     title: 'Important Tasks'
                 }
