@@ -4,9 +4,9 @@
             class="sidebar-el-menu"
             :default-active="onRoutes"
             :collapse="collapse"
-            background-color="#324157"
-            text-color="#bfcbd9"
-            active-text-color="#20a0ff"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
             unique-opened
             router
         >

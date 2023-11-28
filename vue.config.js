@@ -1,7 +1,7 @@
 module.exports = {
     baseUrl: './',
     assetsDir: 'static',
-    productionSourceMap: false,
+
     // devServer: {
     //     proxy: {
     //         '/api':{
@@ -13,4 +13,9 @@ module.exports = {
     //         }
     //     }
     // }
+    productionSourceMap: false,
+
+    transpileDependencies: [
+      'vuetify'
+    ]
 }

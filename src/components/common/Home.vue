@@ -1,9 +1,8 @@
 <template>
     <div class="wrapper">
-        <v-head></v-head>
-        <v-sidebar></v-sidebar>
+        <NewHeader></NewHeader>
         <div class="content-box" :class="{'content-collapse':collapse}">
-            <v-tags></v-tags>
+            <!-- <v-tags></v-tags> -->
             <div class="content">
                 <transition name="move" mode="out-in">
                     <keep-alive :include="tagsList">
@@ -13,11 +12,12 @@
                 <el-backtop target=".content"></el-backtop>
             </div>
         </div>
+        <!-- <v-sidebar></v-sidebar> -->
     </div>
 </template>
 
 <script>
-import vHead from './Header.vue';
+import NewHeader from './NewHeader.vue';
 import vSidebar from './Sidebar.vue';
 import vTags from './Tags.vue';
 import bus from './bus';
@@ -29,7 +29,7 @@ export default {
         };
     },
     components: {
-        vHead,
+        NewHeader,
         vSidebar,
         vTags
     },

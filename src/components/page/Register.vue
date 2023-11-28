@@ -6,19 +6,19 @@
                 <el-button style="float: right; padding: 3px 0" type="text" @click="toLogin">Already have an account? Go back to the login page</el-button>
             </div>
             <el-form :rules="rules" :model="formData" ref="formData" label-width="150px" class="demo-ruleForm">
-                <el-form-item label="Username" prop="username">
+                <el-form-item label="Username" prop="username" class="py-2">
                     <el-input v-model.trim="formData.username" type="text" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Password" prop="password">
+                <el-form-item label="Password" prop="password" class="py-2">
                     <el-input v-model.trim="formData.password" @blur="checkPassword" type="password"
                         auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Confirm Password" prop="confirmPassword">
+                <el-form-item label="Confirm Password" prop="confirmPassword" class="py-2">
                     <el-input v-model.trim="formData.confirmPassword" @blur="checkPassword" type="password"
                         auto-complete="off"></el-input>
                     <div class="el-form-item__error" ref="confirmPassword"></div>
                 </el-form-item>
-                <el-form-item label="Email" prop="email">
+                <el-form-item label="Email" prop="email" class="py-2">
                     <el-input v-model.trim="formData.email" type="text" required=true auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item>

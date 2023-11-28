@@ -152,6 +152,8 @@
     }
 
     .tags-li.active {
+        border: #ffd04b;
+        background-color: #ffd04b;
         color: #fff;
     }
 
